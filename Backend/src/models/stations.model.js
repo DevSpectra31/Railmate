@@ -1,6 +1,12 @@
 import mongoose,{Schema} from mongoose;
 const stationsSchema=new Schema(
     {
+        station_id:{
+            type:String,
+            unique:true,
+            required:true,
+            index:true,
+        },
         stationCode:{
             type:String,
             unique:true,
