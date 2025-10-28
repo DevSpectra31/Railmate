@@ -6,6 +6,10 @@ const stationOrdersSchema=new Schema(
             unique:true,
             required:true,
         },
+        User_id:{
+            type:Schema.Types.ObjectId,
+            ref:"User",
+        },
         items:[
             {
                 Product_id:{

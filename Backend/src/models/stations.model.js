@@ -27,13 +27,7 @@ const stationsSchema=new Schema(
         state:{
             type:true,
             required:true,
-            unique:true,
             lowercase:true,
-        },
-        pincode:{
-            type:String,
-            required:true,
-            required:true,
         },
         location:{
             type:PointerEvent,
