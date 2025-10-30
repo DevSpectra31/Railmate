@@ -1,11 +1,6 @@
-import mongoose ,{Schema} from {mongoose};
+import mongoose ,{Schema} from "mongoose";
 const usersSchema=new Schema(
     {
-        user_id : {
-            type:String,
-            required:true,
-            unique:true,
-        },
         username:{
             type:String,
             required:true,
@@ -14,12 +9,7 @@ const usersSchema=new Schema(
             trim:true,
             index:true
         },
-        firstName:{
-            type:String,
-            required:true,
-            unique:false,
-        },
-        lastName:{
+        fullname:{
             type:String,
             required:true,
             unique:false,
