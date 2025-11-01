@@ -1,1 +1,1 @@
-export const DB_NAME="railmate"
+export const DB_NAME="Railmate";
