@@ -24,14 +24,16 @@ const usersSchema=new Schema(
             trim:true,
             index:true
         },
-        phone:{
-            type:String,
-            unique:true,
-        },
+         phone:{
+             type:String,
+             required:true,
+             index:true,
+             sparse:true,
+         },
         passwordHash : {
             type:String,
             unique:true,
-            required:true,
+            sparse:true,
         },
     },
     {
@@ -39,7 +41,7 @@ const usersSchema=new Schema(
     },
 )
      usersSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
+    if (!this.isModified("passwordHash")) return next();
     this.passwordHash = await bcrypt.hash(this.passwordHash, 10);
     next();
   }),
