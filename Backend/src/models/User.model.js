@@ -1,15 +1,17 @@
-import mongoose , {Schema} from "mongoose";
+import mongoose ,{Schema}from "mongoose";
 const UserSchema=new Schema(
     {
-        Username:{
+        username:{
             type:String,
-            unique:true,
             required:true,
+            unique:true,
         },
         email:{
             type:String,
-            unique:true,
             required:true,
+            unique:true,
+            index:true,
+            trim:true,
         },
         name:{
             type:String,
@@ -19,16 +21,17 @@ const UserSchema=new Schema(
             type:String,
             unique:true,
             required:true,
+            index:true,
         },
-        Role:{
+        role:{
             type:String,
-            enum : ["Customer","staff","Vendor"],
-            required:true,
+            enum : ["customer","staff","vendor"],
         },
-        Profile_img:{
+        Profile:{
             type:String,
-            //upload on AWS
-        }
-    }
+            // link to aws
+        },
+    },
+    {timestamps:true}
 )
 export const User=mongoose.model("User",UserSchema);
