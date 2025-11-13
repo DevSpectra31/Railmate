@@ -1,37 +1,39 @@
-import mongoose ,{Schema} from "mongoose";
-const ProductSchema=new Schema(
+import mongoose,{ Schema } from "mongoose";
+const Productschema=new Schema(
     {
         vendor_id:{
             type:Schema.Types.ObjectId,
-            ref:"Vendors",
+            ref:"Vendor"
         },
-        description:{
+        vendor_name:{
+            type:Schema.Types.ObjectId,
+            ref:"Vendor",
+        },
+        product_name:{
             type:String,
             required:true,
         },
-        category:{
+        Description:{
             type:String,
             required:true,
         },
-            weight:{
-                type:Number,
-                required:true,
-            },
+        Category:{
+            type:String,
+            required:true,
+        },
         price:{
             type:Number,
             required:true,
-            index:true,
         },
-        imagURL:{
-            type:String
-            // link to aws
+        image_url:{
+            type:String,
+            required:true,
+            //link to aws
         },
         isAvailiable:{
             type:Boolean,
             required:true,
-            index:true,
         }
-    },
-    {timestamps:true}
+    }
 )
-export const Product=mongoose.model("Product",ProductSchema);
+export const Product=mongoose.model("Product",Productschema);

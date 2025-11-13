@@ -1,0 +1,54 @@
+import mongoose , {Schema} from "mongoose";
+const Orderschema=new Schema(
+    {
+        vendor_id:{
+            type:Schema.Types.ObjectId,
+            ref:"Vendor",
+        },
+        user_id:{
+            type:Schema.Types.ObjectId,
+            ref:"User",
+        },
+        station_id:{
+            type:Schema.Types.ObjectId,
+            ref:"Station",
+        },
+        totalamount:{
+            type:Number,
+            required:true,
+        },
+        status:{
+            enum:["Pending","Confrimed","Completed"],
+            required:true,
+        },
+        delivery_details:{
+            station_code:{
+                type:Schema.ObjectId,
+                ref:"Station",
+            },
+            station_name:{
+                type:Schema.Types.ObjectId,
+                ref:"Station",
+            },
+            train_number:{
+                type:Schema.Types.ObjectId,
+                ref:"Station",
+            },
+            sit_number:{
+                type:Schema.Types.ObjectId,
+                ref:"Station",
+            },
+            coach_no:{
+                type:Schema.Types.ObjectId,
+                ref:"Station",
+            },
+            platform:{
+                type:Schema.Types.ObjectId,
+                ref:"Station",
+            },
+        },
+        items:{
+            
+        }
+    }
+)
