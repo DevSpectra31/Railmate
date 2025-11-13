@@ -13,6 +13,10 @@ const ProductSchema=new Schema(
             type:String,
             required:true,
         },
+            weight:{
+                type:Number,
+                required:true,
+            },
         price:{
             type:Number,
             required:true,
