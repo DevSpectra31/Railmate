@@ -30,6 +30,7 @@ const StationSchema=new Schema(
             unique:true,
             required:true,
         }
-    }
+    },
+    {timestamps:true}
 )
 export const Station=mongoose.model("Station",StationSchema);

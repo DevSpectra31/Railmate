@@ -32,6 +32,7 @@ const Userschema=new Schema(
             type:Boolean,
             required:true,
         }
-    }
+    },
+    {timestamps:true}
 )
 export const User=mongoose.model("User",Userschema);

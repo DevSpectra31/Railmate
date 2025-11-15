@@ -34,6 +34,7 @@ const Productschema=new Schema(
             type:Boolean,
             required:true,
         }
-    }
+    },
+    {timestamps:true}
 )
 export const Product=mongoose.model("Product",Productschema);

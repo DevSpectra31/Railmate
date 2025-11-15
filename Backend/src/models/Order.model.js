@@ -48,7 +48,40 @@ const Orderschema=new Schema(
             },
         },
         items:{
-            
-        }
-    }
+            product_name:{
+                type:Schema.Types.ObjectId,
+                ref:"Product",
+            },
+            description:{
+                type:Schema.Types.ObjectId,
+                ref:"Product",
+            },
+            price:{
+                type:Schema.Types.ObjectId,
+                ref:"Product",
+            },
+            image_url:{
+                type:Schema.Types.ObjectId,
+                ref:"Product",
+            },
+            isAvailiable:{
+                type:Schema.Types.ObjectId,
+                ref:"Product",
+            }
+        },
+        product_id:{
+            type:Schema.Types.ObjectId,
+            ref:"Product",
+        },
+        quantity:{
+            type:Number,
+            required:true,
+        },
+        price:{
+            type:Schema.Types.ObjectId,
+            ref:"Product",
+        },
+    },
+    {timestamps:true}
 )
+export const Order=mongoose.model("Order",Orderschema);

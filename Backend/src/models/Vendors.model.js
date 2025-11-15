@@ -16,7 +16,8 @@ const Vendorschema=new Schema(
             type:Number,
             required:true,
             index:true,
-        }
-    }
+        },
+    },
+    {timestamps: true}
 )
 export const Vendor=mongoose.model("Vendor",Vendorschema);
