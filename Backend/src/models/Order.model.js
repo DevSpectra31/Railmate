@@ -1,87 +1,56 @@
-import mongoose , {Schema} from "mongoose";
-const Orderschema=new Schema(
-    {
-        vendor_id:{
-            type:Schema.Types.ObjectId,
-            ref:"Vendor",
-        },
-        user_id:{
-            type:Schema.Types.ObjectId,
-            ref:"User",
-        },
-        station_id:{
-            type:Schema.Types.ObjectId,
-            ref:"Station",
-        },
-        totalamount:{
-            type:Number,
-            required:true,
-        },
-        status:{
-            enum:["Pending","Confrimed","Completed"],
-            required:true,
-        },
-        delivery_details:{
-            station_code:{
-                type:Schema.ObjectId,
-                ref:"Station",
-            },
-            station_name:{
-                type:Schema.Types.ObjectId,
-                ref:"Station",
-            },
-            train_number:{
-                type:Schema.Types.ObjectId,
-                ref:"Station",
-            },
-            sit_number:{
-                type:Schema.Types.ObjectId,
-                ref:"Station",
-            },
-            coach_no:{
-                type:Schema.Types.ObjectId,
-                ref:"Station",
-            },
-            platform:{
-                type:Schema.Types.ObjectId,
-                ref:"Station",
-            },
-        },
-        items:{
-            product_name:{
-                type:Schema.Types.ObjectId,
-                ref:"Product",
-            },
-            description:{
-                type:Schema.Types.ObjectId,
-                ref:"Product",
-            },
-            price:{
-                type:Schema.Types.ObjectId,
-                ref:"Product",
-            },
-            image_url:{
-                type:Schema.Types.ObjectId,
-                ref:"Product",
-            },
-            isAvailiable:{
-                type:Schema.Types.ObjectId,
-                ref:"Product",
-            }
-        },
-        product_id:{
-            type:Schema.Types.ObjectId,
-            ref:"Product",
-        },
-        quantity:{
-            type:Number,
-            required:true,
-        },
-        price:{
-            type:Schema.Types.ObjectId,
-            ref:"Product",
-        },
+import mongoose, { Schema } from "mongoose";
+
+const OrderItemSchema = new Schema({
+    product: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+        required: true
     },
-    {timestamps:true}
-)
-export const Order=mongoose.model("Order",Orderschema);
+    quantity: {
+        type: Number,
+        required: true,
+        min: 1
+    },
+    price: { // Price per unit at time of order
+        type: Number,
+        required: true
+    }
+});
+
+const Orderschema = new Schema(
+    {
+        vendorId: {
+            type: Schema.Types.ObjectId,
+            ref: "User", // Role: Vendor
+            required: true
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User", // Role: Customer
+            required: true
+        },
+        stationId: {
+            type: Schema.Types.ObjectId,
+            ref: "Station",
+            required: true
+        },
+        items: [OrderItemSchema],
+        totalAmount: {
+            type: Number,
+            required: true,
+        },
+        status: {
+            type: String,
+            enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
+            default: "Pending"
+        },
+        deliveryDetails: {
+            trainNumber: String,
+            coachNumber: String,
+            seatNumber: String
+        }
+    },
+    { timestamps: true }
+);
+
+export const Order = mongoose.model("Order", Orderschema);

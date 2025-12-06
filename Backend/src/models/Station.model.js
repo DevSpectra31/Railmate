@@ -1,36 +1,26 @@
-import mongoose , {Schema} from "mongoose";
-const StationSchema=new Schema(
+import mongoose, { Schema } from "mongoose";
+
+const StationSchema = new Schema(
     {
-        Station_code:{
-            type:String,
-            required:true,
-            unique:true,
+        name: {
+            type: String,
+            required: true,
+            index: true
         },
-        station_name:{
-            type:String,
-            required:true,
+        code: {
+            type: String,
+            required: true,
+            unique: true,
+            uppercase: true,
+            index: true
         },
-        train_number:{
-            type:Number,
-            unique:true,
-            required:true,
+        city: {
+            type: String,
         },
-        coach_no:{
-            type:String,
-            unique:true,
-            required:true,
-        },
-        sit_number:{
-            type:Number,
-            unique:true,
-            required:true,
-            },
-        platform:{
-            type:Number,
-            unique:true,
-            required:true,
+        state: {
+            type: String,
         }
     },
-    {timestamps:true}
-)
-export const Station=mongoose.model("Station",StationSchema);
+    { timestamps: true }
+);
+export const Station = mongoose.model("Station", StationSchema);

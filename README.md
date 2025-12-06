@@ -1,95 +1,92 @@
-Project in Simple Words
+# Railmate
 
-Think of it as a Swiggy + DTDC + IRCTC combined — but for Indian Railways.
+Railmate is a comprehensive logistics and station services platform for Indian Railways, combining parcel booking, real-time tracking, and station food ordering into a single application.
 
-People can book a railway parcel online without standing in long queues.
+## Project Structure
 
-They can track their parcel in real-time just like you track an Amazon delivery.
+- **Backend**: Node.js + Express + MongoDB
+- **Frontend**: React + Vite + TailwindCSS
 
-Passengers can order food or items from station shops in advance, so when their train reaches the station, the order is ready for pickup.
+## Prerequisites
 
-All this runs on cloud so it’s accessible from anywhere, secure, and scalable.
+- **Node.js**: (v16 or higher recommended)
+- **MongoDB**: Local instance running on `mongodb://localhost:27017`
+- **Git**
 
-The Problem You’re Solving
+## Quick Start
 
-Currently:
+### 1. Backend Setup
 
-Parcel booking is offline and slow.
+The backend handles the API logic, database connections, and authentication.
 
-No real-time tracking like courier companies offer.
+1.  **Navigate to the backend directory:**
+    ```bash
+    cd Backend
+    ```
 
-Vendors lose sales because passengers don’t have a digital way to order before arriving.
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-People waste time in queues for both parcels and shop purchases.
+3.  **Configure Environment Variables:**
+    Create a `.env` file in the `Backend` directory with the following content:
+    ```env
+    PORT=8000
+    MONGO_URI=mongodb://localhost:27017
+    CORS_ORIGIN=*
+    ACCESS_TOKEN_SECRET=your_super_secret_key_change_this
+    ACCESS_TOKEN_EXPIRY=1d
+    REFRESH_TOKEN_SECRET=your_refresh_secret
+    REFRESH_TOKEN_EXPIRY=10d
+    ORIGIN=*
+    ```
 
-Your Solution
+4.  **Run the server:**
+    ```bash
+    npm run dev
+    ```
+    *The server will start on `http://localhost:8000`.*
 
-A cloud-based, secure web & mobile app that:
+### 2. Frontend Setup
 
-Parcel Booking
+The frontend provides the user interface for Customers, Vendors, and Admins.
 
-User fills parcel details online.
+1.  **Navigate to the frontend directory:**
+    Open a new terminal and run:
+    ```bash
+    cd Frontend
+    ```
 
-System calculates cost automatically.
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-User gets a QR code receipt for easy drop-off.
+3.  **Run the application:**
+    ```bash
+    npm run dev
+    ```
+    *The application will be accessible at `http://localhost:5173`.*
 
-Real-Time Tracking
+## Features & Usage
 
-Tracks parcel using Railway APIs or IoT GPS devices for high-value items.
+### Public Pages
+- **Home**: `http://localhost:5173/` - Landing page.
+- **Track Parcel**: `http://localhost:5173/track` - Enter a parcel ID to see its status.
+- **Login**: `http://localhost:5173/login` - Sign in to access dashboards.
+- **Register**: `http://localhost:5173/register` - Create a Customer account.
 
-Updates status automatically in the app.
+### Core Flows
+1.  **Register/Login**: Create an account to access features.
+2.  **Book Parcel**: Navigate to Dashboard > Book Parcel to submit parcel details.
+3.  **Order Food**: Navigate to Dashboard > Order Food to browse station menus.
 
-Station Shop Ordering
+### Dashboards
+- **User Dashboard**: View your active parcels and quick actions.
+- **Vendor Dashboard**: (`/vendor`) Manage products and view orders.
+- **Admin Dashboard**: (`/admin`) View system statistics.
 
-Passenger can browse vendors at their upcoming station.
-
-Pay online and get a pickup code.
-
-No waiting in long lines when the train arrives.
-
-Dashboards
-
-Vendors: Manage orders & inventory.
-
-Railway Staff: Verify parcels & manage dispatches.
-
-Admin: View analytics & monitor system health.
-
-How It Works Technically
-
-Frontend: React Native (Mobile), React.js (Web) → User-friendly interface.
-
-Backend: Node.js + Express → Handles requests, authentication, payment.
-
-Database: MongoDB (AWS DocumentDB or MongoDB Atlas) → Stores booking, orders, tracking data in a flexible, scalable NoSQL format.
-
-Cloud Services:
-
-AWS S3 → Stores receipts, QR codes.
-
-AWS Lambda → Runs serverless tracking updates.
-
-AWS IoT Core → Connects GPS devices for real-time location.
-
-Security: JWT authentication, HTTPS encryption.
-
-Payments: Razorpay or Paytm integration.
-
-Implementation Plan
-
-Phase 1 – Research, UI/UX design, database schema setup in MongoDB.
-
-Phase 2 – Develop parcel booking & vendor modules.
-
-Phase 3 – Integrate tracking system + payment gateway.
-
-Phase 4 – Testing & deploy to AWS.
-
-Why It’s Valuable
-
-For Customers: Saves time, adds convenience, transparency.
-
-For Vendors: Increases sales, easy order management.
-
-For Railways: Better efficiency, more revenue, less manual work.
+## Tech Stack
+-   **Frontend**: React, React Router DOM, TailwindCSS, Axios, Lucide React.
+-   **Backend**: Express.js, Mongoose, JWT, CORS, Dotenv.
