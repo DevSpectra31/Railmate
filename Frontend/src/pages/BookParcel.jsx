@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import apiClient from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import PaymentModal from '../components/PaymentModal';
 
 const BookParcel = () => {
     const navigate = useNavigate();
@@ -20,13 +21,21 @@ const BookParcel = () => {
     const [error, setError] = useState('');
     const [successData, setSuccessData] = useState(null); // To store parcel data including QR code
 
+    // Payment Modal State
+    const [showPayment, setShowPayment] = useState(false);
+
     const calculateCost = (weight) => {
         if (!weight) return 0;
         return 50 + (Number(weight) * 10);
     };
 
-    const handleSubmit = async (e) => {
+    const handleInitialSubmit = (e) => {
         e.preventDefault();
+        setShowPayment(true);
+    };
+
+    const handlePaymentSuccess = async () => {
+        setShowPayment(false);
         setLoading(true);
         setError('');
         try {
@@ -49,7 +58,8 @@ const BookParcel = () => {
                     name: formData.senderName,
                     mobile: formData.senderMobile,
                     address: formData.senderAddress
-                }
+                },
+                amount: calculatedAmount // Ensure amount is sent
             };
 
             const response = await apiClient.post('/parcels/create', payload);
@@ -102,11 +112,18 @@ const BookParcel = () => {
 
     return (
         <div className="min-h-[calc(100vh-4rem)] bg-gray-50 py-12 px-4">
+            {showPayment && (
+                <PaymentModal
+                    amount={calculateCost(formData.weight)}
+                    onClose={() => setShowPayment(false)}
+                    onSuccess={handlePaymentSuccess}
+                />
+            )}
             <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
                 <h1 className="text-3xl font-bold text-gray-900 mb-8">Book a Parcel</h1>
                 {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm text-center">{error}</div>}
 
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleInitialSubmit} className="space-y-8">
                     {/* Parcel Details Section */}
                     <section>
                         <h2 className="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">

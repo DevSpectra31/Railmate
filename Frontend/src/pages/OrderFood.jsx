@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import apiClient from '../api/axios';
 import { ShoppingBag, UtensilsCrossed, Pizza } from 'lucide-react';
+import PaymentModal from '../components/PaymentModal';
 
 const CATEGORIES = [
     { id: 'All', name: 'All', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&auto=format&fit=crop&q=60' },
@@ -19,6 +20,10 @@ const OrderFood = () => {
     const [selectedStation, setSelectedStation] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [loading, setLoading] = useState(false);
+
+    // Payment Modal State
+    const [showPayment, setShowPayment] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect(() => {
         apiClient.get('/stations')
@@ -52,10 +57,17 @@ const OrderFood = () => {
         }
     }, [selectedCategory, products]);
 
-    const handleOrder = async (product) => {
+    const initiateOrder = (product) => {
+        setSelectedProduct(product);
+        setShowPayment(true);
+    };
+
+    const handleOrderSuccess = async () => {
+        setShowPayment(false);
+        const product = selectedProduct;
         try {
             const payload = {
-                items: [{ product: product._id, quantity: 1, price: product.price }],
+                items: [{ productId: product._id, quantity: 1, price: product.price }],
                 totalAmount: product.price,
                 stationId: selectedStation,
                 vendorId: product.vendorId
@@ -65,11 +77,20 @@ const OrderFood = () => {
         } catch (error) {
             alert('Failed to place order. Ensure you are logged in.');
             console.error(error);
+        } finally {
+            setSelectedProduct(null);
         }
     };
 
     return (
         <div className="min-h-[calc(100vh-4rem)] bg-gray-50 py-12 px-4">
+            {showPayment && selectedProduct && (
+                <PaymentModal
+                    amount={selectedProduct.price}
+                    onClose={() => setShowPayment(false)}
+                    onSuccess={handleOrderSuccess}
+                />
+            )}
             <div className="max-w-7xl mx-auto space-y-8">
                 {/* Header & Station Select */}
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -135,7 +156,7 @@ const OrderFood = () => {
                                         </div>
                                         <p className="text-xs text-gray-500 mb-4 line-clamp-2 min-h-[2.5em]">{p.description || "Freshly prepared meal for your journey."}</p>
                                         <button
-                                            onClick={() => handleOrder(p)}
+                                            onClick={() => initiateOrder(p)}
                                             className="w-full bg-secondary hover:bg-orange-600 text-white py-2.5 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 active:scale-95"
                                         >
                                             <ShoppingBag className="h-4 w-4" />

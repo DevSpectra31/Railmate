@@ -16,8 +16,16 @@ const Login = () => {
             const res = await apiClient.post('/users/login', formData);
             // Store user data/token logic here
             console.log('Login success:', res.data);
+
             login(res.data.data.user);
-            navigate(res.data.data.user.role === 'Admin' ? '/admin/dashboard' : '/user/dashboard');
+
+            if (res.data.data.user.role === 'Admin') {
+                navigate('/admin/dashboard');
+            } else if (res.data.data.user.role === 'Vendor') {
+                navigate('/vendor/dashboard');
+            } else {
+                navigate('/user/dashboard');
+            }
         } catch (err) {
             console.error("Login Error Details:", err);
             console.error("Response Data:", err.response?.data);

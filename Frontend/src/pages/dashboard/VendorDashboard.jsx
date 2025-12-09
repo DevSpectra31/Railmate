@@ -57,6 +57,16 @@ const VendorDashboard = () => {
         }
     };
 
+    const handleStatusUpdate = async (orderId, newStatus) => {
+        try {
+            await apiClient.patch(`/orders/${orderId}/status`, { status: newStatus });
+            setOrders(orders.map(o => o._id === orderId ? { ...o, status: newStatus } : o));
+        } catch (error) {
+            console.error("Failed to update status", error);
+            alert("Failed to update status");
+        }
+    };
+
     return (
         <div className="min-h-[calc(100vh-4rem)] bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto space-y-8">
@@ -84,9 +94,18 @@ const VendorDashboard = () => {
                                     <div key={order._id} className="p-4 bg-gray-50 rounded-xl hover:bg-orange-50 transition-colors">
                                         <div className="flex justify-between mb-2">
                                             <span className="font-bold text-gray-900">Order #{order._id.slice(-6)}</span>
-                                            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${order.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}`}>
-                                                {order.status}
-                                            </span>
+                                            <select
+                                                value={order.status}
+                                                onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
+                                                className={`px-2 py-0.5 rounded-full text-xs font-bold border-none focus:ring-2 focus:ring-offset-1 ${order.status === 'Pending' ? 'bg-yellow-100 text-yellow-700 focus:ring-yellow-500' :
+                                                    order.status === 'Cancelled' ? 'bg-red-100 text-red-700 focus:ring-red-500' :
+                                                        'bg-green-100 text-green-700 focus:ring-green-500'
+                                                    }`}
+                                            >
+                                                {['Pending', 'Confirmed', 'Preparing', 'Out for Delivery', 'Completed', 'Cancelled'].map(s => (
+                                                    <option key={s} value={s}>{s}</option>
+                                                ))}
+                                            </select>
                                         </div>
                                         <div className="space-y-1 mb-2">
                                             {order.items.map((item, idx) => (
